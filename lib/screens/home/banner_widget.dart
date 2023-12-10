@@ -74,7 +74,7 @@ class _BannerState extends State<BannerWidget> {
           );
         } else {
           // Handle loading or error state
-          return CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

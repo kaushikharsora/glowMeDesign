@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:glowme/model/user_model.dart';
-import 'package:glowme/service/login%20/user_login.dart';
+import 'package:glowme/service/login/user_login.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
   TextEditingController phoneNumberController = TextEditingController();

@@ -11,18 +11,16 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
- 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         body: AnimatedSplashScreen(
-      splash: 'assets/images/splash_screen.png',
-      nextScreen: const SignInScreen(),
-      splashTransition: SplashTransition.slideTransition,
-      pageTransitionType: PageTransitionType.bottomToTop,
-    )
-       
+          splash: 'assets/images/splash_screen.png',
+          nextScreen: const SignInScreen(),
+          splashTransition: SplashTransition.slideTransition,
+          pageTransitionType: PageTransitionType.bottomToTop,
+        ),
       ),
     );
   }
