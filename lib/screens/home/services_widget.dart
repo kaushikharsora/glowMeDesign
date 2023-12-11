@@ -1,7 +1,6 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:glowme/base/routes/route_url.dart';
+import 'package:glowme/constants/image.dart';
 import 'package:glowme/model/service_model.dart';
 import 'package:glowme/provider/landing_screen_provider.dart';
 import 'package:go_router/go_router.dart';
@@ -17,8 +16,7 @@ class ServicePage extends StatefulWidget {
 class _ServicePageState extends State<ServicePage> {
   @override
   void initState() {
-    Provider.of<LandingScreenProvider>(context, listen: false)
-        .fetchAllService();
+    //Provider.of<LandingScreenProvider>(context, listen: false).fetchAllService();
     super.initState();
   }
 
@@ -27,7 +25,12 @@ class _ServicePageState extends State<ServicePage> {
     return Consumer<LandingScreenProvider>(
         builder: (context, landingScreenProvider, child) {
       
-      Service? services = landingScreenProvider.fetchService;
+      //Service? services = landingScreenProvider.fetchService;
+      Service? services = Service(success: true, data: [
+        ServiceData(id: 'service01', categoryId: 'c01', serviceImage: ImageConstants.image_onBoarding02, serviceName: "hair", v: 1),
+        ServiceData(id: 'service02', categoryId: 'c02', serviceImage: ImageConstants.image_onBoarding03, serviceName: "makeup", v: 1),
+      ]);
+
       if(services != null){
         return Column(
           children: [
@@ -87,7 +90,7 @@ class _ServicePageState extends State<ServicePage> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: services.data.map((service) {
-                      Uint8List bytes = base64.decode(service.serviceImage!);
+                      //Uint8List bytes = base64.decode(service.serviceImage!);
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8.0), // Add spacing here
@@ -99,10 +102,11 @@ class _ServicePageState extends State<ServicePage> {
                               height: 80, // Adjust the height as needed
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
+                                color: Colors.pink
                                 // color: service.color,
                               ),
-                              child: Image.memory(
-                                bytes,
+                              child: Image.asset(
+                                ImageConstants.image_onBoarding02,
                                 width: 80,
                                 height: 80,
                                 fit: BoxFit.cover,

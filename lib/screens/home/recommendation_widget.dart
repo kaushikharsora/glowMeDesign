@@ -1,14 +1,13 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:glowme/constants/colors.dart';
+import 'package:glowme/constants/image.dart';
 import 'package:glowme/model/vendor_model.dart';
 import 'package:glowme/provider/landing_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 class RecommendationWidget extends StatefulWidget {
-  const RecommendationWidget({
-    super.key
-  });
+  const RecommendationWidget({super.key});
 
   @override
   State<RecommendationWidget> createState() => _RecommendationWidgetState();
@@ -29,8 +28,7 @@ class _RecommendationWidgetState extends State<RecommendationWidget> {
   ];
   @override
   void initState() {
-    Provider.of<LandingScreenProvider>(context, listen: false)
-        .fetchAllVendors();
+    //Provider.of<LandingScreenProvider>(context, listen: false).fetchAllVendors();
     super.initState();
   }
 
@@ -38,7 +36,35 @@ class _RecommendationWidgetState extends State<RecommendationWidget> {
   Widget build(BuildContext context) {
     return Consumer<LandingScreenProvider>(
         builder: (context, landingScreenProvider, child) {
-      Vendor? vendorList = landingScreenProvider.vendorService;
+      //Vendor? vendorList = landingScreenProvider.vendorService;
+      Vendor? vendorList = Vendor(success: true, data: [
+        VendorData(
+            id: 'vendor01',
+            name: 'Vendor01',
+            address: "Surat, Gujarat",
+            availableTime: DateTime.now(),
+            category: 'Vendor',
+            description: "this is dummy text for testing",
+            endTime: DateTime.now(),
+            experience: 1,
+            isAvailable: true,
+            rating: 2,
+            vendorImage: ImageConstants.image_onBoarding01,
+            services: []),
+        VendorData(
+            id: 'vendor02',
+            name: 'Vendor02',
+            address: "Bhavnagar, Gujarat",
+            availableTime: DateTime.now(),
+            category: 'Vendor',
+            description: "this is dummy text for testing01",
+            endTime: DateTime.now(),
+            experience: 1,
+            isAvailable: true,
+            rating: 3,
+            vendorImage: ImageConstants.image_onBoarding01,
+            services: []),
+      ]);
 
       return vendorList != null
           ? Column(
@@ -114,7 +140,7 @@ class ServiceListItem extends StatelessWidget {
   final String title;
   final double rating;
 
-  const ServiceListItem({
+   ServiceListItem({
     super.key,
     required this.image,
     required this.title,
@@ -123,7 +149,7 @@ class ServiceListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Uint8List bytes = base64.decode(image);
+    //Uint8List bytes = base64.decode(image);
     return Column(
       children: [
         Container(
@@ -138,12 +164,13 @@ class ServiceListItem extends StatelessWidget {
                     height: 150,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0),
+                      color: pink03
                     ),
                   ),
                   Positioned(
-                    child: Image.memory(bytes),
                     width: 100,
                     height: 100,
+                    child: Image.asset(image),
                   ),
                   Positioned(
                     top: 0,

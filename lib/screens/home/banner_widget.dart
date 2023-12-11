@@ -27,7 +27,7 @@ class _BannerState extends State<BannerWidget> {
   void initState() {
     super.initState();
     // Fetch banners when the widget is initialized
-    Provider.of<LandingScreenProvider>(context, listen: false).fetchAllBanner();
+    //Provider.of<LandingScreenProvider>(context, listen: false).fetchAllBanner();
    
   }
 
@@ -39,8 +39,7 @@ class _BannerState extends State<BannerWidget> {
         if (landingScreenProvider.fetchBanner != null &&
             landingScreenProvider.fetchBanner!.success) {
           // Map the banner data to BannerCardWidget
-          List<Widget> banners =
-              landingScreenProvider.fetchBanner!.data.map((banner) {
+          List<Widget> banners = landingScreenProvider.fetchBanner!.data.map((banner) {
             return BannerCardWidget(
               imageUrl: banner.image,
               title: banner.title,

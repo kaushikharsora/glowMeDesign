@@ -80,13 +80,19 @@ class _HomePageState extends State<HomePage> {
                 ],
                 currentIndex: _selectedIndex,
                 onTap: (index) {
+                  _selectedIndex = index;
                   final landingScreenProvider = Provider.of<LandingScreenProvider>(context, listen: false);
                   landingScreenProvider.setBottomNavIndex(index);
                   if(landingScreenProvider.bottomNavIndex ==0){
                     context.go(home);
                   }else if(landingScreenProvider.bottomNavIndex == 1){
                     context.go(appointmentCalendar);
+                  }else if(landingScreenProvider.bottomNavIndex == 2){
+                    context.go(walletPage);
+                  }else if(landingScreenProvider.bottomNavIndex == 3){
+                    context.go(profilePage);
                   }
+                  setState(() {});
                 },
                 
               ),
@@ -99,7 +105,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class MyAppBar extends StatelessWidget {
-  const MyAppBar({Key? key});
+  const MyAppBar({super.key});
   @override
   Widget build(BuildContext context) {
     return ClipRRect(

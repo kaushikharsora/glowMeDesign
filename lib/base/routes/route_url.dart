@@ -6,3 +6,5 @@ const appointmentCalendar = '/home/all-services/appointment-calendar';
 const filteredVendor = '/home/all-services/appointment-calendar/filtered-vendors';
 const vendorProfile = '/home/all-services/appointment-calendar/filtered-vendors/vendor-profile';
 const orderSummary = '/home/all-services/appointment-calendar/filtered-vendors/vendor-profile/order-summary';
+const profilePage = '/home/all-services/profile-page';
+const walletPage = '/home/all-services/wallet-page';

@@ -9,6 +9,7 @@ import 'package:glowme/screens/home/vendor_profile.dart';
 import 'package:glowme/screens/services/all_services_page.dart';
 import 'package:glowme/screens/sign-in/sign_in_screen.dart';
 import 'package:glowme/screens/splash_screen.dart';
+import 'package:glowme/screens/wallet/wallet_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final _parentKey = GlobalKey<NavigatorState>();
@@ -57,6 +58,14 @@ final router = GoRouter(navigatorKey: _parentKey, routes: [
         GoRoute(
           path: orderSummary,
           builder: (context, state) =>   OrderSummaryScreen(),
+        ),
+        GoRoute(
+          path: profilePage,
+          builder: (context, state) => const ProfilePage(),
+        ),
+        GoRoute(
+          path: walletPage,
+          builder: (context, state) => const WalletPage(),
         ),
       ])
 ]);
