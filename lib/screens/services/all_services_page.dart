@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glowme/provider/landing_screen_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -32,8 +31,7 @@ class _AllServicesState extends State<AllServices> {
   ];
    @override
   void initState() {
-    Provider.of<LandingScreenProvider>(context, listen: false)
-        .fetchAllService();
+    //Provider.of<LandingScreenProvider>(context, listen: false).fetchAllService();
     super.initState();
   }
 

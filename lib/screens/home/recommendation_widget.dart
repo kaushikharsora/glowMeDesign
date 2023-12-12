@@ -49,7 +49,7 @@ class _RecommendationWidgetState extends State<RecommendationWidget> {
             experience: 1,
             isAvailable: true,
             rating: 2,
-            vendorImage: ImageConstants.image_onBoarding01,
+            vendorImage: ImageConstants.imageVendor01,
             services: []),
         VendorData(
             id: 'vendor02',
@@ -62,7 +62,59 @@ class _RecommendationWidgetState extends State<RecommendationWidget> {
             experience: 1,
             isAvailable: true,
             rating: 3,
-            vendorImage: ImageConstants.image_onBoarding01,
+            vendorImage: ImageConstants.imageVendor01,
+            services: []),
+        VendorData(
+            id: 'vendor01',
+            name: 'Vendor01',
+            address: "Surat, Gujarat",
+            availableTime: DateTime.now(),
+            category: 'Vendor',
+            description: "this is dummy text for testing",
+            endTime: DateTime.now(),
+            experience: 1,
+            isAvailable: true,
+            rating: 2,
+            vendorImage: ImageConstants.imageVendor01,
+            services: []),
+        VendorData(
+            id: 'vendor02',
+            name: 'Vendor02',
+            address: "Bhavnagar, Gujarat",
+            availableTime: DateTime.now(),
+            category: 'Vendor',
+            description: "this is dummy text for testing01",
+            endTime: DateTime.now(),
+            experience: 1,
+            isAvailable: true,
+            rating: 3,
+            vendorImage: ImageConstants.imageVendor01,
+            services: []),
+        VendorData(
+            id: 'vendor01',
+            name: 'Vendor01',
+            address: "Surat, Gujarat",
+            availableTime: DateTime.now(),
+            category: 'Vendor',
+            description: "this is dummy text for testing",
+            endTime: DateTime.now(),
+            experience: 1,
+            isAvailable: true,
+            rating: 2,
+            vendorImage: ImageConstants.imageVendor01,
+            services: []),
+        VendorData(
+            id: 'vendor02',
+            name: 'Vendor02',
+            address: "Bhavnagar, Gujarat",
+            availableTime: DateTime.now(),
+            category: 'Vendor',
+            description: "this is dummy text for testing01",
+            endTime: DateTime.now(),
+            experience: 1,
+            isAvailable: true,
+            rating: 3,
+            vendorImage: ImageConstants.imageVendor01,
             services: []),
       ]);
 
@@ -101,13 +153,13 @@ class _RecommendationWidgetState extends State<RecommendationWidget> {
                 GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, // Display two items per row
-                    mainAxisSpacing: 1.0, // Add vertical spacing between items
-                    crossAxisSpacing:
-                        18.0, // Add horizontal spacing between items
-                    childAspectRatio: 0.8, // Adjust the aspect ratio as needed
+                    mainAxisSpacing: 0.0, // Add vertical spacing between items
+                    crossAxisSpacing: 0.0, // Add horizontal spacing between items
+                    childAspectRatio: 1, // Adjust the aspect ratio as needed
                   ),
                   itemCount: vendorList.data.length,
                   shrinkWrap: true,
+                  padding: EdgeInsets.zero,
                   physics:
                       const NeverScrollableScrollPhysics(), // Disable scrolling
                   itemBuilder: (BuildContext context, int index) {
@@ -140,7 +192,7 @@ class ServiceListItem extends StatelessWidget {
   final String title;
   final double rating;
 
-   ServiceListItem({
+   const ServiceListItem({
     super.key,
     required this.image,
     required this.title,
@@ -166,11 +218,7 @@ class ServiceListItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15.0),
                       color: pink03
                     ),
-                  ),
-                  Positioned(
-                    width: 100,
-                    height: 100,
-                    child: Image.asset(image),
+                    child: Image.asset(image, fit: BoxFit.fill,),
                   ),
                   Positioned(
                     top: 0,

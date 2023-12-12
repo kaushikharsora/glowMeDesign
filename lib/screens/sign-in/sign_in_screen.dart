@@ -1,9 +1,7 @@
 // ignore_for_file: unused_field
-
 import 'package:flutter/material.dart';
-import 'package:glowme/base/routes/route_url.dart';
 import 'package:glowme/provider/user_provider.dart';
-import 'package:go_router/go_router.dart';
+import 'package:glowme/service/all%20services/fast_to_sms_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -143,15 +141,13 @@ class _SignInScreensState extends State<SignInScreen> {
                               ),
                               onChanged: _validatePhoneNumber,
                               onSubmitted: (value) {
-                                print('submitted :::: $value');
                                 userScreenProvider.generateRandomOtp();
                               },
                               keyboardType: TextInputType.phone,
                               maxLength: 10,
                             ),
                           ),
-                          PinputExample(
-                              pinController: userScreenProvider.otpController)
+                          PinputExample(userScreenProvider: userScreenProvider)
                         ],
                       ),
                     ),
@@ -167,9 +163,9 @@ class _SignInScreensState extends State<SignInScreen> {
 }
 
 class PinputExample extends StatefulWidget {
-  final TextEditingController pinController;
+  final UserDetailsProvider userScreenProvider;
 
-  const PinputExample({super.key, required this.pinController});
+  const PinputExample({super.key, required this.userScreenProvider});
 
   @override
   State<PinputExample> createState() => _PinputExampleState();
@@ -181,7 +177,7 @@ class _PinputExampleState extends State<PinputExample> {
 
   @override
   void dispose() {
-    widget.pinController.dispose();
+    widget.userScreenProvider.otpController.dispose();
     focusNode.dispose();
     super.dispose();
   }
@@ -204,7 +200,8 @@ class _PinputExampleState extends State<PinputExample> {
         border: Border.all(color: borderColor),
       ),
     );
-   final userScreenProvifder= Provider.of<UserDetailsProvider>(context, listen: false);
+    final userScreenProvifder =
+        Provider.of<UserDetailsProvider>(context, listen: false);
 
     /// Optionally you can use form to validate the Pinput
     return Form(
@@ -217,7 +214,7 @@ class _PinputExampleState extends State<PinputExample> {
             textDirection: TextDirection.ltr,
             child: Pinput(
               length: 6,
-              controller: widget.pinController,
+              controller: widget.userScreenProvider.otpController,
               focusNode: focusNode,
               androidSmsAutofillMethod:
                   AndroidSmsAutofillMethod.smsUserConsentApi,
@@ -289,19 +286,27 @@ class _PinputExampleState extends State<PinputExample> {
                     backgroundColor: const Color(
                         0xffB41854), // Set the background color here
                   ),
-                  onPressed: () {
-                  //  userScreenProvifder
-                  //       .signInUser();
-                  //       Future.delayed(const Duration(seconds: 1)).then((value){
-                  //         if(userScreenProvifder.userExist){
-                  //         context.go(home);
-                  //       }
-                  //       });
-                  context.go(home);
-                        
-                        
+                  onPressed: () async {
+                    //  userScreenProvifder
+                    //       .signInUser();
+                    //       Future.delayed(const Duration(seconds: 1)).then((value){
+                    //         if(userScreenProvifder.userExist){
+                    //         context.go(home);
+                    //       }
+                    //       });
+                    //context.go(home);
+                    String phoneNumber = widget.userScreenProvider.phoneNumberController.text.trim();
+                    String otp = widget.userScreenProvider.generatedOtp;
+                    if (phoneNumber.isNotEmpty && phoneNumber.length == 10) {
+                      await Fast2SMSService.sendSMS(
+                          'Your OTP for GlowME Wealth login is $otp. This OTP will expire in 10 minutes.',
+                          phoneNumber);
+                    } else {
+
+                    }
                   },
-                  child:  Text(userScreenProvifder.userExist ? 'Sign In': 'Login')))
+                  child: Text(
+                      userScreenProvifder.userExist ? 'Sign In' : 'Login')))
         ],
       ),
     );

@@ -22,7 +22,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   final PageController _pageController = PageController(initialPage: 0);
   Timer? _timer;
   int _currentPage = 0;
-  String pageImage = ImageConstants.image_onBoarding01;
+  String pageImage = ImageConstants.imageOnBoarding01;
 
   void _autoRotateOff() {
     SystemChrome.setPreferredOrientations(
@@ -167,13 +167,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         itemCount: 3,
         onPageChanged: (value) {
           if (value == 0) {
-            pageImage = ImageConstants.image_onBoarding01;
+            pageImage = ImageConstants.imageOnBoarding01;
           } else if (value == 1) {
-            pageImage = ImageConstants.image_onBoarding02;
+            pageImage = ImageConstants.imageOnBoarding02;
           } else if (value == 2) {
-            pageImage = ImageConstants.image_onBoarding03;
+            pageImage = ImageConstants.imageOnBoarding03;
           } else {
-            pageImage = ImageConstants.image_onBoarding01;
+            pageImage = ImageConstants.imageOnBoarding01;
           }
           setState(() {});
         },

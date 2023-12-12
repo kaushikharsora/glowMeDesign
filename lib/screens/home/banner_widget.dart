@@ -4,6 +4,8 @@ import 'package:carousel_indicator/carousel_indicator.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:glowme/constants/image.dart';
+import 'package:glowme/model/banner_model.dart';
 import 'package:glowme/provider/landing_screen_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -38,19 +40,26 @@ class _BannerState extends State<BannerWidget> {
         // Check if data is available
         if (landingScreenProvider.fetchBanner != null &&
             landingScreenProvider.fetchBanner!.success) {
+
+          BannerModel bannerModel = BannerModel(success: true, data: [
+            BannerData(id: 'b01', title: 'Up to 50% off', description: 'Book your favorite Artists at irresistible Prices', image: ImageConstants.imageCarouselSlider01),
+            BannerData(id: 'b02', title: 'Up to 75% off', description: 'Book your favorite Artists at irresistible Prices', image: ImageConstants.imageCarouselSlider01),
+            BannerData(id: 'b03', title: 'Up to 26% off', description: 'Book your favorite Artists at irresistible Prices', image: ImageConstants.imageCarouselSlider01),
+          ]);
+
           // Map the banner data to BannerCardWidget
-          List<Widget> banners = landingScreenProvider.fetchBanner!.data.map((banner) {
-            return BannerCardWidget(
-              imageUrl: banner.image,
-              title: banner.title,
-              description: banner.description,
-            );
-          }).toList();
+          // List<Widget> banners = landingScreenProvider.fetchBanner!.data.map((banner) {
+          //   return BannerCardWidget(
+          //     imageUrl: banner.image,
+          //     title: banner.title,
+          //     description: banner.description,
+          //   );
+          // }).toList();
 
           return Column(
             children: [
               CarouselSlider(
-                items: banners,
+                items: bannerModel.data as List<Widget>,
                 options: CarouselOptions(
                   autoPlay: true,
                   onPageChanged: _updateCurrentIndex,
@@ -62,7 +71,7 @@ class _BannerState extends State<BannerWidget> {
               CarouselIndicator(
                 height: 10.0,
                 width: 20.0,
-                count: banners.length,
+                count: bannerModel.data.length,
                 index: _currentIndex,
                 cornerRadius: 20,
                 activeColor: const Color(0xffB41854),

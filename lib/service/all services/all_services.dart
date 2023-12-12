@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:glowme/model/service_model.dart';
 import 'package:glowme/service/base_url.dart';
 import 'package:http/http.dart' as http;
@@ -15,15 +16,21 @@ class ServiceApi{
         },
        
       );
-       print('response status ::: ${response.statusCode}');
+       if (kDebugMode) {
+         print('response status ::: ${response.statusCode}');
+       }
 
       if (response.statusCode == 200) {
         print('inside here');
         final data = json.decode(response.body);
-        print(data['data']);
+        if (kDebugMode) {
+          print(data['data']);
+        }
         service = Service.fromJson(data);
 
-       print('response body ::: ${service}');
+       if (kDebugMode) {
+         print('response body ::: ${service}');
+       }
 
       } else {
         // Handle other status codes if needed
