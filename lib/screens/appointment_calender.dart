@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glowme/base/routes/route_url.dart';
+import 'package:glowme/constants/font_family_constants.dart';
+import 'package:glowme/constants/image.dart';
 import 'package:glowme/widgets/view_all_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -15,51 +17,252 @@ class AppointmentCalendar extends StatefulWidget {
 class __AppointmentCalendarState extends State<AppointmentCalendar> {
   DateTime _selectedDate = DateTime.now();
   String _selectedTimeSlot = '9:00 AM';
+  List<String> items = [
+    "Kaushik",
+    "Developer",
+    "Tester",
+    "User",
+    "Artist",
+  ];
+
+  List<String> filters = [
+    "All",
+    "HD MakeUp",
+    "Hair",
+    "Nail",
+    "Air Brushes",
+    "Matte Makeup"
+  ];
+
+  List<String> filteredItems = [];
+
+  String selectedFilter = "All"; // Default filter
+  bool isFavorite = false;
+  Map<String, bool> favorites = {};
+  @override
+  void initState() {
+    super.initState();
+    filteredItems = List.from(items); // Initialize filteredItems with all items
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back_ios)),
+        leading: IconButton(
+            onPressed: () {}, icon: const Icon(Icons.arrow_back_ios)),
         title: const Text('Book Appointment'),
         centerTitle: true,
         backgroundColor: const Color(0xffB41854),
       ),
-      body: Column(
-        children: [
-          const Expanded(
-            child: Center(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all( 10),
               child: Text(
-                'Your main content goes here.',
-                style: TextStyle(fontSize: 18),
+                'Upcoming Appointments',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    color: Color(0xff383838),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                    fontFamily: FontFamilyConstants.robotoRegular),
               ),
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.calendar_today),
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (context) => RoundedTopSheet(
-                  child: TimePickerBottomSheet(
-                    selectedDate: _selectedDate,
-                    selectedTimeSlot: _selectedTimeSlot,
-                    onDateSelected: (date) {
-                      setState(() {
-                        _selectedDate = date;
-                      });
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 2,
+              child: ListView.separated(
+                itemCount: filteredItems.length,
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => const Divider(),
+                itemBuilder: (context, index) {
+                  final item = filteredItems[index];
+                  return InkWell(
+                    onTap: () {
+                      context.go(vendorProfile);
                     },
-                    onTimeSlotSelected: (timeSlot) {
-                      setState(() {
-                        _selectedTimeSlot = timeSlot;
-                      });
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      margin:
+                          const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset.zero,
+                                color: const Color(0xff383838).withOpacity(0.08),
+                                blurRadius: 12),
+                          ]),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Image.asset(ImageConstants.imageUser01,
+                                  height: 46, width: 46),
+                              const SizedBox(width: 10),
+                              const Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Air Makeup'),
+                                    Text(
+                                      'Order ID: 9293933',
+                                      style: TextStyle(color: Color(0xffB41854)),
+                                    ),
+                                    Text(
+                                      'Date: 23 oct 2023',
+                                      style: TextStyle(color: Color(0xffB41854)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Text(
+                                '₹199',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily:
+                                        FontFamilyConstants.robotoRegular),
+                              ),
+                              const SizedBox(width: 5),
+                            ],
+                          ),
+                          const SizedBox(height: 15),
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                color: const Color(0xffB41854),
+                                borderRadius: BorderRadius.circular(28),
+                              ),
+                              child: const Text(
+                                'Cancel Appointment',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: FontFamilyConstants.latoRegular,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all( 10),
+              child: Text(
+                'Past Appointments',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    color: Color(0xff383838),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                    fontFamily: FontFamilyConstants.robotoRegular),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 2,
+              child: ListView.separated(
+                itemCount: filteredItems.length,
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => const Divider(),
+                itemBuilder: (context, index) {
+                  final item = filteredItems[index];
+                  return InkWell(
+                    onTap: () {
+                      context.go(vendorProfile);
                     },
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      margin:
+                          const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset.zero,
+                                color: const Color(0xff383838).withOpacity(0.08),
+                                blurRadius: 12),
+                          ]),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Image.asset(ImageConstants.imageUser01,
+                                  height: 46, width: 46),
+                              const SizedBox(width: 10),
+                              const Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Air Makeup'),
+                                    Text(
+                                      'Order ID: 9293933',
+                                      style: TextStyle(color: Color(0xffB41854)),
+                                    ),
+                                    Text(
+                                      'Date: 23 oct 2023',
+                                      style: TextStyle(color: Color(0xffB41854)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Text(
+                                '₹199',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily:
+                                        FontFamilyConstants.robotoRegular),
+                              ),
+                              const SizedBox(width: 5),
+                            ],
+                          ),
+                          const SizedBox(height: 15),
+                          InkWell(
+                            onTap: () {
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                color: const Color(0xffB41854),
+                                borderRadius: BorderRadius.circular(28),
+                              ),
+                              child: const Text(
+                                ' View Details',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: FontFamilyConstants.latoRegular,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -71,7 +274,8 @@ class TimePickerBottomSheet extends StatefulWidget {
   final ValueChanged<DateTime> onDateSelected;
   final ValueChanged<String> onTimeSlotSelected;
 
-  const TimePickerBottomSheet({super.key, 
+  const TimePickerBottomSheet({
+    super.key,
     required this.selectedDate,
     required this.selectedTimeSlot,
     required this.onDateSelected,
@@ -155,7 +359,7 @@ class _TimePickerBottomSheetState extends State<TimePickerBottomSheet> {
                   defaultTextStyle: TextStyle(
                     color: Colors.black,
                   ),
-    
+
                   selectedTextStyle: TextStyle(
                     color: Colors.white,
                   ),
@@ -163,11 +367,13 @@ class _TimePickerBottomSheetState extends State<TimePickerBottomSheet> {
                     color: Colors.white,
                   ),
                   selectedDecoration: BoxDecoration(
-                    color: Color(0xffB41854), // Change selected day circle color
+                    color:
+                        Color(0xffB41854), // Change selected day circle color
                     shape: BoxShape.circle,
                   ),
                   todayDecoration: BoxDecoration(
-                    color: Color(0xffFBBEBE), // Change selected day circle color
+                    color:
+                        Color(0xffFBBEBE), // Change selected day circle color
                     shape: BoxShape.circle,
                   ),
                   // markersColor: Colors.red, // Customize the color for markers
@@ -176,10 +382,12 @@ class _TimePickerBottomSheetState extends State<TimePickerBottomSheet> {
                 daysOfWeekStyle: const DaysOfWeekStyle(
                   // Customize the style for each day of the week
                   weekdayStyle: TextStyle(
-                    color: Color(0xffB41854), // Customize the color for weekdays
+                    color:
+                        Color(0xffB41854), // Customize the color for weekdays
                   ),
                   weekendStyle: TextStyle(
-                    color: Color(0xffB41854), // Customize the color for weekends
+                    color:
+                        Color(0xffB41854), // Customize the color for weekends
                   ),
                 ),
               ),
@@ -203,7 +411,9 @@ class _TimePickerBottomSheetState extends State<TimePickerBottomSheet> {
               ),
               const SizedBox(height: 16),
               ViewAllElevatedButton(
-                  title: 'NEXT', context: context, onPressed: () {
+                  title: 'NEXT',
+                  context: context,
+                  onPressed: () {
                     context.go(filteredVendor);
                   })
             ],

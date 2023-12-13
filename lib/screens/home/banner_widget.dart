@@ -18,6 +18,7 @@ class BannerWidget extends StatefulWidget {
 
 class _BannerState extends State<BannerWidget> {
   int _currentIndex = 0;
+  BannerModel? bannerModel;
 
   void _updateCurrentIndex(int index, CarouselPageChangedReason reason) {
     setState(() {
@@ -30,56 +31,65 @@ class _BannerState extends State<BannerWidget> {
     super.initState();
     // Fetch banners when the widget is initialized
     //Provider.of<LandingScreenProvider>(context, listen: false).fetchAllBanner();
-   
+
+    bannerModel = BannerModel(success: true, data: [
+      BannerData(
+          id: 'b01',
+          title: 'Up to 50% off',
+          description: 'Book your favorite Artists at irresistible Prices',
+          image: ImageConstants.imageCarouselSlider01),
+      BannerData(
+          id: 'b02',
+          title: 'Up to 75% off',
+          description: 'Book your favorite Artists at irresistible Prices',
+          image: ImageConstants.imageCarouselSlider01),
+      BannerData(
+          id: 'b03',
+          title: 'Up to 26% off',
+          description: 'Book your favorite Artists at irresistible Prices',
+          image: ImageConstants.imageCarouselSlider01),
+    ]);
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<LandingScreenProvider>(
       builder: (context, landingScreenProvider, child) {
-        // Check if data is available
+        //Check if data is available
         if (landingScreenProvider.fetchBanner != null &&
             landingScreenProvider.fetchBanner!.success) {
-
-          BannerModel bannerModel = BannerModel(success: true, data: [
-            BannerData(id: 'b01', title: 'Up to 50% off', description: 'Book your favorite Artists at irresistible Prices', image: ImageConstants.imageCarouselSlider01),
-            BannerData(id: 'b02', title: 'Up to 75% off', description: 'Book your favorite Artists at irresistible Prices', image: ImageConstants.imageCarouselSlider01),
-            BannerData(id: 'b03', title: 'Up to 26% off', description: 'Book your favorite Artists at irresistible Prices', image: ImageConstants.imageCarouselSlider01),
-          ]);
-
-          // Map the banner data to BannerCardWidget
-          // List<Widget> banners = landingScreenProvider.fetchBanner!.data.map((banner) {
-          //   return BannerCardWidget(
-          //     imageUrl: banner.image,
-          //     title: banner.title,
-          //     description: banner.description,
-          //   );
-          // }).toList();
-
-          return Column(
-            children: [
-              CarouselSlider(
-                items: bannerModel.data as List<Widget>,
-                options: CarouselOptions(
-                  autoPlay: true,
-                  onPageChanged: _updateCurrentIndex,
-                  enlargeCenterPage: true,
-                  viewportFraction: 0.9,
-                  aspectRatio: 2.0,
-                ),
-              ),
-              CarouselIndicator(
-                height: 10.0,
-                width: 20.0,
-                count: bannerModel.data.length,
-                index: _currentIndex,
-                cornerRadius: 20,
-                activeColor: const Color(0xffB41854),
-                color: Colors.grey,
-                space: 5.0,
-              ),
-            ],
+        //Map the banner data to BannerCardWidget
+        List<Widget> banners = landingScreenProvider.fetchBanner!.data.map((bannerData) {
+          return BannerCardWidget(
+            imageUrl: bannerData.image,
+            title: bannerData.title,
+            description: bannerData.description,
           );
+        }).toList();
+        return Column(
+          children: [
+            CarouselSlider(
+              items: banners,
+              options: CarouselOptions(
+                autoPlay: true,
+                onPageChanged: _updateCurrentIndex,
+                enlargeCenterPage: true,
+                viewportFraction: 0.9,
+                aspectRatio: 2.0,
+              ),
+            ),
+            CarouselIndicator(
+              height: 10.0,
+              width: 20.0,
+              count: banners.length,
+              index: _currentIndex,
+              cornerRadius: 20,
+              activeColor: const Color(0xffB41854),
+              color: Colors.grey,
+              space: 5.0,
+            ),
+          ],
+        );
         } else {
           // Handle loading or error state
           return const Center(child: CircularProgressIndicator());
@@ -88,6 +98,7 @@ class _BannerState extends State<BannerWidget> {
     );
   }
 }
+
 class BannerCardWidget extends StatelessWidget {
   final String imageUrl;
   final String title;

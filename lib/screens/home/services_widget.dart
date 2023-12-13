@@ -25,53 +25,101 @@ class _ServicePageState extends State<ServicePage> {
   Widget build(BuildContext context) {
     return Consumer<LandingScreenProvider>(
         builder: (context, landingScreenProvider, child) {
-      
       //Service? services = landingScreenProvider.fetchService;
       Service? services = Service(success: true, data: [
-        ServiceData(id: 'service01', categoryId: 'c01', serviceImage: ImageConstants.icService02, serviceName: "hair", v: 1),
-        ServiceData(id: 'service02', categoryId: 'c02', serviceImage: ImageConstants.icService01, serviceName: "makeup", v: 1),
-        ServiceData(id: 'service01', categoryId: 'c01', serviceImage: ImageConstants.icService02, serviceName: "hair", v: 1),
-        ServiceData(id: 'service02', categoryId: 'c02', serviceImage: ImageConstants.icService01, serviceName: "makeup", v: 1),
-        ServiceData(id: 'service01', categoryId: 'c01', serviceImage: ImageConstants.icService02, serviceName: "hair", v: 1),
-        ServiceData(id: 'service02', categoryId: 'c02', serviceImage: ImageConstants.icService01, serviceName: "makeup", v: 1),
-        ServiceData(id: 'service01', categoryId: 'c01', serviceImage: ImageConstants.icService02, serviceName: "hair", v: 1),
-        ServiceData(id: 'service02', categoryId: 'c02', serviceImage: ImageConstants.icService01, serviceName: "makeup", v: 1),
-        ServiceData(id: 'service01', categoryId: 'c01', serviceImage: ImageConstants.icService02, serviceName: "hair", v: 1),
-        ServiceData(id: 'service02', categoryId: 'c02', serviceImage: ImageConstants.icService01, serviceName: "makeup", v: 1),
+        ServiceData(
+            id: 'service01',
+            categoryId: 'c01',
+            serviceImage: ImageConstants.icService02,
+            serviceName: "hair",
+            v: 1),
+        ServiceData(
+            id: 'service02',
+            categoryId: 'c02',
+            serviceImage: ImageConstants.icService01,
+            serviceName: "makeup",
+            v: 1),
+        ServiceData(
+            id: 'service01',
+            categoryId: 'c01',
+            serviceImage: ImageConstants.icService02,
+            serviceName: "hair",
+            v: 1),
+        ServiceData(
+            id: 'service02',
+            categoryId: 'c02',
+            serviceImage: ImageConstants.icService01,
+            serviceName: "makeup",
+            v: 1),
+        ServiceData(
+            id: 'service01',
+            categoryId: 'c01',
+            serviceImage: ImageConstants.icService02,
+            serviceName: "hair",
+            v: 1),
+        ServiceData(
+            id: 'service02',
+            categoryId: 'c02',
+            serviceImage: ImageConstants.icService01,
+            serviceName: "makeup",
+            v: 1),
+        ServiceData(
+            id: 'service01',
+            categoryId: 'c01',
+            serviceImage: ImageConstants.icService02,
+            serviceName: "hair",
+            v: 1),
+        ServiceData(
+            id: 'service02',
+            categoryId: 'c02',
+            serviceImage: ImageConstants.icService01,
+            serviceName: "makeup",
+            v: 1),
+        ServiceData(
+            id: 'service01',
+            categoryId: 'c01',
+            serviceImage: ImageConstants.icService02,
+            serviceName: "hair",
+            v: 1),
+        ServiceData(
+            id: 'service02',
+            categoryId: 'c02',
+            serviceImage: ImageConstants.icService01,
+            serviceName: "makeup",
+            v: 1),
       ]);
 
-      if(services != null && services.data != null){
+      if (services != null && services.data != null) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Services',
-                      style: TextStyle(
-                          fontSize: 17,
-                          color: Color(0xff706D6D),
-                          fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '         Select a service',
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xff706D6D),
-                          fontWeight: FontWeight.w500),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: Row(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Services',
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Color(0xff706D6D),
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        'Select a service',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xff706D6D),
+                            fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  ),
+                  Row(
                     children: [
                       TextButton(
                         onPressed: () {
@@ -91,8 +139,8 @@ class _ServicePageState extends State<ServicePage> {
                       )
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             SizedBox(
               height: 150,
@@ -103,92 +151,48 @@ class _ServicePageState extends State<ServicePage> {
                 itemCount: services.data.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0), // Add spacing here
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        margin: const EdgeInsets.only(top: 20),
-                        width: 80, // Adjust the width as needed
-                        height: 80, // Adjust the height as needed
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: index.isEven ? pink01 : pink02
-                          // color: service.color,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0), // Add spacing here
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.only(top: 20),
+                          width: 80, // Adjust the width as needed
+                          height: 80, // Adjust the height as needed
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: index.isEven ? pink01 : pink02
+                              // color: service.color,
+                              ),
+                          child: Image.asset(
+                            services.data[index].serviceImage!,
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                        child: Image.asset(
-                          services.data[index].serviceImage!,
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover,
+                        const SizedBox(
+                            height:
+                                8), // Adjust the spacing between the circle and text
+                        Text(
+                          services.data[index].serviceName!,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Color(0xff706D6D),
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                          height:
-                          8), // Adjust the spacing between the circle and text
-                      Text(
-                        services.data[index].serviceName!,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Color(0xff706D6D),
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },),
-
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
-            // SizedBox(
-            //     height: 150,
-            //     child: SingleChildScrollView(
-            //       scrollDirection: Axis.horizontal,
-            //       child: Row(
-            //         children: services.data.map((service) {
-            //           //Uint8List bytes = base64.decode(service.serviceImage!);
-            //           return Padding(
-            //             padding: const EdgeInsets.symmetric(horizontal: 8.0), // Add spacing here
-            //             child: Column(
-            //               children: [
-            //                 Container(
-            //                   padding: const EdgeInsets.all(10),
-            //                   margin: const EdgeInsets.only(top: 20),
-            //                   width: 80, // Adjust the width as needed
-            //                   height: 80, // Adjust the height as needed
-            //                   decoration: BoxDecoration(
-            //                     shape: BoxShape.circle,
-            //                     color: services.data[index] ? pink01
-            //                     // color: service.color,
-            //                   ),
-            //                   child: Image.asset(
-            //                     service.serviceImage!,
-            //                     width: 80,
-            //                     height: 80,
-            //                     fit: BoxFit.cover,
-            //                   ),
-            //                 ),
-            //                 const SizedBox(
-            //                     height:
-            //                     8), // Adjust the spacing between the circle and text
-            //                 Text(
-            //                   service.serviceName!,
-            //                   style: const TextStyle(
-            //                     fontSize: 14,
-            //                     color: Color(0xff706D6D),
-            //                     fontWeight: FontWeight.w300,
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           );
-            //         }).toList(),
-            //       ),
-            //     ))
           ],
         );
-      }else{
+      } else {
         return const Center(child: CircularProgressIndicator());
       }
     });

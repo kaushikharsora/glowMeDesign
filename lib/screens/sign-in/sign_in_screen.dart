@@ -1,7 +1,12 @@
 // ignore_for_file: unused_field
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:glowme/base/routes/route_url.dart';
+import 'package:glowme/constants/constants.dart';
 import 'package:glowme/provider/user_provider.dart';
 import 'package:glowme/service/all%20services/fast_to_sms_service.dart';
+import 'package:glowme/service/preference_service/preferences.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +35,7 @@ class _SignInScreensState extends State<SignInScreen> {
 
   @override
   void initState() {
-    Provider.of<UserDetailsProvider>(context, listen: false).fetchAllUsers();
+   // Provider.of<UserDetailsProvider>(context, listen: false).fetchAllUsers();
 
     super.initState();
   }
@@ -94,7 +99,7 @@ class _SignInScreensState extends State<SignInScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 20
                           ),
                           Padding(
                             padding: const EdgeInsets.all(16.0),
@@ -287,22 +292,18 @@ class _PinputExampleState extends State<PinputExample> {
                         0xffB41854), // Set the background color here
                   ),
                   onPressed: () async {
-                    //  userScreenProvifder
-                    //       .signInUser();
-                    //       Future.delayed(const Duration(seconds: 1)).then((value){
-                    //         if(userScreenProvifder.userExist){
-                    //         context.go(home);
-                    //       }
-                    //       });
-                    //context.go(home);
                     String phoneNumber = widget.userScreenProvider.phoneNumberController.text.trim();
                     String otp = widget.userScreenProvider.generatedOtp;
                     if (phoneNumber.isNotEmpty && phoneNumber.length == 10) {
-                      await Fast2SMSService.sendSMS(
-                          'Your OTP for GlowME Wealth login is $otp. This OTP will expire in 10 minutes.',
-                          phoneNumber);
+                      await Fast2SMSService.sendSMS('Your OTP for GlowME login is $otp. This OTP will expire in 10 minutes.', phoneNumber);
+                      if(otp == widget.userScreenProvider.otpController.text){
+                        await SharedPreference.setData(IS_AUTH, true);
+                        context.go(home);
+                      }else{
+                        //context.go(home);
+                      }
                     } else {
-
+                      Fluttertoast.showToast(msg: 'Please enter valid number');
                     }
                   },
                   child: Text(

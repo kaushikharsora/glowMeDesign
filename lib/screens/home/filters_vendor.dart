@@ -12,14 +12,14 @@ class FilteredVendors extends StatefulWidget {
 
 class _FilteredVendorsState extends State<FilteredVendors> {
   List<String> items = [
-    "Item 1",
-    "Item 2",
-    "Item 3",
-    "Item 4",
-    "Item 5",
+    "Kaushik",
+    "Developer",
+    "Tester",
+    "User",
+    "Artist",
   ];
 
-  List<String> filters = ["All", "Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
+  List<String> filters = ["All", "HD MakeUp", "Hair", "Nail", "Air Brushes", "Matte Makeup"];
 
   List<String> filteredItems = [];
 
@@ -127,7 +127,6 @@ Map<String, bool> favorites = {};
           ),
           const SizedBox(height: 40,),
           Expanded(
-            
             child: ListView.separated(
               itemCount: filteredItems.length,
               separatorBuilder: (context, index) => const Divider(),
