@@ -35,7 +35,7 @@ class _SignInScreensState extends State<SignInScreen> {
 
   @override
   void initState() {
-   // Provider.of<UserDetailsProvider>(context, listen: false).fetchAllUsers();
+    // Provider.of<UserDetailsProvider>(context, listen: false).fetchAllUsers();
 
     super.initState();
   }
@@ -98,9 +98,7 @@ class _SignInScreensState extends State<SignInScreen> {
                                 color: const Color(0xff706D6D),
                                 fontWeight: FontWeight.w500),
                           ),
-                          const SizedBox(
-                            height: 20
-                          ),
+                          const SizedBox(height: 20),
                           Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: TextField(
@@ -292,19 +290,31 @@ class _PinputExampleState extends State<PinputExample> {
                         0xffB41854), // Set the background color here
                   ),
                   onPressed: () async {
-                    String phoneNumber = widget.userScreenProvider.phoneNumberController.text.trim();
+                    String phoneNumber = widget
+                        .userScreenProvider.phoneNumberController.text
+                        .trim();
                     String otp = widget.userScreenProvider.generatedOtp;
                     if (phoneNumber.isNotEmpty && phoneNumber.length == 10) {
-                      await Fast2SMSService.sendSMS('Your OTP for GlowME login is $otp. This OTP will expire in 10 minutes.', phoneNumber);
-                      if(otp == widget.userScreenProvider.otpController.text){
+                      bool sendOTP = false;
+                      if (phoneNumber.isNotEmpty &&
+                          phoneNumber.length == 10 && sendOTP == false) {
+                        await Fast2SMSService.sendSMS(
+                            'Your OTP for GlowME login is $otp. This OTP will expire in 10 minutes.',
+                            phoneNumber);
+                        sendOTP = true;
+                      }else if (sendOTP == true &&
+                          otp == widget.userScreenProvider.otpController.text) {
+                        print('jkjk010203');
                         await SharedPreference.setData(IS_AUTH, true);
                         context.go(home);
-                      }else{
+                      } else {
                         //context.go(home);
+                        Fluttertoast.showToast(msg: 'Invalid OTP request');
                       }
                     } else {
                       Fluttertoast.showToast(msg: 'Please enter valid number');
                     }
+                    setState(() {});
                   },
                   child: Text(
                       userScreenProvifder.userExist ? 'Sign In' : 'Login')))
