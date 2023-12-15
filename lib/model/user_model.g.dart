@@ -40,26 +40,24 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
     };
 
 Addresses _$AddressesFromJson(Map<String, dynamic> json) => Addresses(
-      home: Home.fromJson(json['home'] as Map<String, dynamic>),
-      office: Home.fromJson(json['office'] as Map<String, dynamic>),
-      others: Home.fromJson(json['others'] as Map<String, dynamic>),
+      type: json['type'] as String,
+      street: json['street'] as String?,
+      city: json['city'] as String?,
+      pincode: json['pincode'] as String?,
+      district: json['district'] as String?,
+      homeNo: json['homeNo'] as String?,
+      landMark: json['landMark'] as String?,
+      state: json['state'] as String?,
+      village: json['village'] as String?,
     );
 
 Map<String, dynamic> _$AddressesToJson(Addresses instance) => <String, dynamic>{
-      'home': instance.home,
-      'office': instance.office,
-      'others': instance.others,
-    };
-
-Home _$HomeFromJson(Map<String, dynamic> json) => Home(
-      type: json['type'] as String,
-      street: json['street'] as String,
-      city: json['city'] as String,
-      pincode: json['pincode'] as String,
-    );
-
-Map<String, dynamic> _$HomeToJson(Home instance) => <String, dynamic>{
       'type': instance.type,
+      'homeNo': instance.homeNo,
+      'landMark': instance.landMark,
+      'village': instance.village,
+      'district': instance.district,
+      'state': instance.state,
       'street': instance.street,
       'city': instance.city,
       'pincode': instance.pincode,

@@ -50,8 +50,8 @@ class __AppointmentCalendarState extends State<AppointmentCalendar> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () {}, icon: const Icon(Icons.arrow_back_ios)),
-        title: const Text('Book Appointment'),
+            onPressed: () {}, icon: const Icon(Icons.arrow_back_ios, size: 16, color: Colors.white,)),
+        title: const Text('Appointments', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),),
         centerTitle: true,
         backgroundColor: const Color(0xffB41854),
       ),

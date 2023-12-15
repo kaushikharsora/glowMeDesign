@@ -17,6 +17,7 @@ class HomePageLayout extends StatelessWidget {
           preferredSize: Size.fromHeight(150.0),
           child: MyAppBar(),
         ),
+        resizeToAvoidBottomInset: false,
         body: Container(
           margin: const EdgeInsets.only(top: 30),
           decoration: BoxDecoration(

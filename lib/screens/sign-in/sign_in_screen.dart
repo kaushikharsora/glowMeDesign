@@ -177,6 +177,8 @@ class PinputExample extends StatefulWidget {
 class _PinputExampleState extends State<PinputExample> {
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
+  bool sendOTP = false;
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -207,121 +209,127 @@ class _PinputExampleState extends State<PinputExample> {
         Provider.of<UserDetailsProvider>(context, listen: false);
 
     /// Optionally you can use form to validate the Pinput
-    return Form(
-      key: formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Directionality(
-            // Specify direction if desired
-            textDirection: TextDirection.ltr,
-            child: Pinput(
-              length: 6,
-              controller: widget.userScreenProvider.otpController,
-              focusNode: focusNode,
-              androidSmsAutofillMethod:
-                  AndroidSmsAutofillMethod.smsUserConsentApi,
-              listenForMultipleSmsOnAndroid: true,
-              defaultPinTheme: defaultPinTheme,
-              separatorBuilder: (index) => const SizedBox(width: 8),
-              validator: (value) {
-                return value ==
-                        Provider.of<UserDetailsProvider>(context, listen: false)
-                            .generatedOtp
-                    ? null
-                    : 'Pin is incorrect';
-              },
-              hapticFeedbackType: HapticFeedbackType.lightImpact,
-              onCompleted: (pin) {
-                debugPrint('onCompleted: $pin');
-              },
-              onChanged: (value) {
-                debugPrint('onChanged: $value');
-              },
-              cursor: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 9),
-                    width: 22,
-                    height: 1,
-                    color: focusedBorderColor,
-                  ),
-                ],
-              ),
-              focusedPinTheme: defaultPinTheme.copyWith(
-                decoration: defaultPinTheme.decoration!.copyWith(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: focusedBorderColor),
-                ),
-              ),
-              submittedPinTheme: defaultPinTheme.copyWith(
-                decoration: defaultPinTheme.decoration!.copyWith(
-                  color: fillColor,
-                  borderRadius: BorderRadius.circular(19),
-                  border: Border.all(color: focusedBorderColor),
-                ),
-              ),
-              errorPinTheme: defaultPinTheme.copyBorderWith(
-                border: Border.all(color: Colors.redAccent),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Resend OTP in 30 seconds',
-            style: GoogleFonts.lato(
-                fontSize: 16,
-                color: const Color(0xff706D6D),
-                fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-              width: MediaQuery.of(context).size.width,
-              height: 40,
-              margin: const EdgeInsets.all(20),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(
-                        0xffB41854), // Set the background color here
-                  ),
-                  onPressed: () async {
-                    String phoneNumber = widget
-                        .userScreenProvider.phoneNumberController.text
-                        .trim();
-                    String otp = widget.userScreenProvider.generatedOtp;
-                    if (phoneNumber.isNotEmpty && phoneNumber.length == 10) {
-                      bool sendOTP = false;
-                      if (phoneNumber.isNotEmpty &&
-                          phoneNumber.length == 10 && sendOTP == false) {
-                        await Fast2SMSService.sendSMS(
-                            'Your OTP for GlowME login is $otp. This OTP will expire in 10 minutes.',
-                            phoneNumber);
-                        sendOTP = true;
-                      }else if (sendOTP == true &&
-                          otp == widget.userScreenProvider.otpController.text) {
-                        print('jkjk010203');
-                        await SharedPreference.setData(IS_AUTH, true);
-                        context.go(home);
-                      } else {
-                        //context.go(home);
-                        Fluttertoast.showToast(msg: 'Invalid OTP request');
-                      }
-                    } else {
-                      Fluttertoast.showToast(msg: 'Please enter valid number');
-                    }
-                    setState(() {});
+    return Stack(
+      children: [
+        Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Directionality(
+                // Specify direction if desired
+                textDirection: TextDirection.ltr,
+                child: Pinput(
+                  length: 6,
+                  controller: widget.userScreenProvider.otpController,
+                  focusNode: focusNode,
+                  androidSmsAutofillMethod:
+                      AndroidSmsAutofillMethod.smsUserConsentApi,
+                  listenForMultipleSmsOnAndroid: true,
+                  defaultPinTheme: defaultPinTheme,
+                  separatorBuilder: (index) => const SizedBox(width: 8),
+                  validator: (value) {
+                    return value ==
+                            Provider.of<UserDetailsProvider>(context, listen: false)
+                                .generatedOtp
+                        ? null
+                        : 'Pin is incorrect';
                   },
-                  child: Text(
-                      userScreenProvifder.userExist ? 'Sign In' : 'Login')))
-        ],
-      ),
+                  hapticFeedbackType: HapticFeedbackType.lightImpact,
+                  onCompleted: (pin) {
+                    debugPrint('onCompleted: $pin');
+                  },
+                  onChanged: (value) {
+                    debugPrint('onChanged: $value');
+                  },
+                  cursor: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 9),
+                        width: 22,
+                        height: 1,
+                        color: focusedBorderColor,
+                      ),
+                    ],
+                  ),
+                  focusedPinTheme: defaultPinTheme.copyWith(
+                    decoration: defaultPinTheme.decoration!.copyWith(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: focusedBorderColor),
+                    ),
+                  ),
+                  submittedPinTheme: defaultPinTheme.copyWith(
+                    decoration: defaultPinTheme.decoration!.copyWith(
+                      color: fillColor,
+                      borderRadius: BorderRadius.circular(19),
+                      border: Border.all(color: focusedBorderColor),
+                    ),
+                  ),
+                  errorPinTheme: defaultPinTheme.copyBorderWith(
+                    border: Border.all(color: Colors.redAccent),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Resend OTP in 30 seconds',
+                style: GoogleFonts.lato(
+                    fontSize: 16,
+                    color: const Color(0xff706D6D),
+                    fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 40,
+                  margin: const EdgeInsets.all(20),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xffB41854), // Set the background color here
+                      ),
+                      onPressed: _onPressedButton,
+                      child: Text(
+                          userScreenProvifder.userExist ? 'Sign In' : 'Login')))
+            ],
+          ),
+        ),
+        if(isLoading) const CircularProgressIndicator()
+      ],
     );
   }
+
+  void _onPressedButton () async {
+    isLoading = true;
+    String phoneNumber = widget.userScreenProvider.phoneNumberController.text.trim();
+    String otp = widget.userScreenProvider.generatedOtp;
+    if (phoneNumber.isNotEmpty && phoneNumber.length == 10) {
+      if (phoneNumber.isNotEmpty &&
+          phoneNumber.length == 10 && sendOTP == false) {
+        await Fast2SMSService.sendSMS(
+            'Your OTP for GlowME login is $otp. This OTP will expire in 10 minutes.',
+            phoneNumber);
+        sendOTP = true;
+      }else if (sendOTP == true &&
+          otp == widget.userScreenProvider.otpController.text) {
+        await SharedPreference.setData(IS_AUTH, true);
+        context.go(home);
+      } else {
+        //context.go(home);
+        Fluttertoast.showToast(msg: 'Invalid OTP request');
+      }
+    } else {
+      Fluttertoast.showToast(msg: 'Please enter valid number');
+    }
+    isLoading = false;
+    setState(() {});
+  }
+
 }
 
 class LineWithCircleAndOr extends StatelessWidget {

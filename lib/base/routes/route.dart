@@ -5,6 +5,7 @@ import 'package:glowme/screens/home/filters_vendor.dart';
 import 'package:glowme/screens/home/home_page.dart';
 import 'package:glowme/screens/home/home_page_layout.dart';
 import 'package:glowme/screens/home/order_summary_page.dart';
+import 'package:glowme/screens/home/user_address_page.dart';
 import 'package:glowme/screens/home/vendor_profile.dart';
 import 'package:glowme/screens/services/all_services_page.dart';
 import 'package:glowme/screens/sign-in/sign_in_screen.dart';
@@ -38,11 +39,11 @@ final router = GoRouter(navigatorKey: _parentKey, routes: [
         ),
         GoRoute(
           path: allservices,
-          builder: (context, state) => AllServices(),
+          builder: (context, state) => const AllServices(),
         ),
         GoRoute(
           path: allservices,
-          builder: (context, state) => AllServices(),
+          builder: (context, state) => const AllServices(),
         ),
         GoRoute(
           path: appointmentCalendar,
@@ -58,7 +59,11 @@ final router = GoRouter(navigatorKey: _parentKey, routes: [
         ),
         GoRoute(
           path: orderSummary,
-          builder: (context, state) =>   OrderSummaryScreen(),
+          builder: (context, state) =>   const OrderSummaryScreen(),
+        ),
+        GoRoute(
+          path: userAddress,
+          builder: (context, state) =>   const UserAddressPage(),
         ),
         GoRoute(
           path: profilePage,

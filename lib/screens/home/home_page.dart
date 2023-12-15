@@ -120,41 +120,46 @@ class MyAppBar extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: 30.0),
             child: Column(children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(children: <Widget>[
-                    const SizedBox(width: 15),
-                    const Icon(Icons.location_on, color: Colors.white, size: 30,),
-                    const SizedBox(width: 10),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5)),
-                      width: 100.0,
-                      height: 30.0,
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              "Nagpur",
-                              style: GoogleFonts.roboto(
-                                color: const Color(0xff383838),
-                                fontSize: 17.0,
+              InkWell(
+                onTap: () {
+                  context.go(userAddress);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(children: <Widget>[
+                      const SizedBox(width: 15),
+                      const Icon(Icons.location_on, color: Colors.white, size: 30,),
+                      const SizedBox(width: 10),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5)),
+                        width: 100.0,
+                        height: 30.0,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                "Nagpur",
+                                style: GoogleFonts.roboto(
+                                  color: const Color(0xff383838),
+                                  fontSize: 17.0,
+                                ),
                               ),
-                            ),
-                            const Icon(Icons.arrow_drop_down)
-                          ],
+                              const Icon(Icons.arrow_drop_down)
+                            ],
+                          ),
                         ),
-                      ),
+                      )
+                    ]),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 18.0),
+                      child: Image.asset('assets/images/notification_bell.png'),
                     )
-                  ]),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 18.0),
-                    child: Image.asset('assets/images/notification_bell.png'),
-                  )
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               Container(

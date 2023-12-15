@@ -19,13 +19,20 @@ class _FilteredVendorsState extends State<FilteredVendors> {
     "Artist",
   ];
 
-  List<String> filters = ["All", "HD MakeUp", "Hair", "Nail", "Air Brushes", "Matte Makeup"];
+  List<String> filters = [
+    "All",
+    "HD MakeUp",
+    "Hair",
+    "Nail",
+    "Air Brushes",
+    "Matte Makeup"
+  ];
 
   List<String> filteredItems = [];
 
   String selectedFilter = "All"; // Default filter
-bool isFavorite = false;
-Map<String, bool> favorites = {};
+  bool isFavorite = false;
+  Map<String, bool> favorites = {};
   @override
   void initState() {
     super.initState();
@@ -47,15 +54,23 @@ Map<String, bool> favorites = {};
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back_ios)),
-        title: const Text('Book Appointment'),
+        leading: IconButton(
+            onPressed: () {
+              context.pop();
+            },
+            icon: const Icon(Icons.arrow_back_ios)),
+        title: const Text(
+          'Makeup Artists',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+        ),
         centerTitle: true,
         backgroundColor: const Color(0xffB41854),
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left:20.0, right: 20, top: 20),
+            padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
             child: Container(
               height: 70,
               decoration: BoxDecoration(
@@ -65,7 +80,7 @@ Map<String, bool> favorites = {};
                 //     color: Colors.black12,
                 //     offset: Offset(1, 1),
                 //     blurRadius: 0.1,
-                  
+
                 //   ),
                 // ],
               ),
@@ -74,12 +89,12 @@ Map<String, bool> favorites = {};
                   // Implement search functionality
                   setState(() {
                     filteredItems = items
-                        .where((item) => item.toLowerCase().contains(value.toLowerCase()))
+                        .where((item) =>
+                            item.toLowerCase().contains(value.toLowerCase()))
                         .toList();
                   });
                 },
                 decoration: InputDecoration(
-                  
                   labelText: 'Search',
                   labelStyle: const TextStyle(color: Colors.transparent),
                   border: OutlineInputBorder(
@@ -93,7 +108,11 @@ Map<String, bool> favorites = {};
                     borderRadius: BorderRadius.circular(20.0),
                     borderSide: const BorderSide(color: Color(0xffB41854)),
                   ),
-                  suffixIcon: const Icon(Icons.search_sharp, color: Color(0xffB41854), size: 29,),
+                  suffixIcon: const Icon(
+                    Icons.search_sharp,
+                    color: Color(0xffB41854),
+                    size: 29,
+                  ),
                   filled: true,
                   fillColor: Colors.white, // Background color
                   contentPadding: const EdgeInsets.all(16.0),
@@ -114,66 +133,79 @@ Map<String, bool> favorites = {};
                       filterList(filters[index]);
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: selectedFilter == filters[index] ? const Color(0xffB41854) :  Colors.white,
+                      primary: selectedFilter == filters[index]
+                          ? const Color(0xffB41854)
+                          : Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                     ),
-                    child: Text(filters[index],style: TextStyle(color:selectedFilter == filters[index] ?  Colors.white :  Colors.black, )),
+                    child: Text(filters[index],
+                        style: TextStyle(
+                          color: selectedFilter == filters[index]
+                              ? Colors.white
+                              : Colors.black,
+                        )),
                   ),
                 );
               },
             ),
           ),
-          const SizedBox(height: 40,),
+          const SizedBox(
+            height: 40,
+          ),
           Expanded(
-            child: ListView.separated(
-              itemCount: filteredItems.length,
-              separatorBuilder: (context, index) => const Divider(),
-              itemBuilder: (context, index) {
-                final item = filteredItems[index];
-                final isFavorite = favorites[item] ?? false;
-                return Padding(
-                  padding: const EdgeInsets.only(left:10.0, right: 10, top: 10),
-                  child: Card(
-                    elevation: 5.0,
-                    child: ListTile(
-                      onTap: (){
-                        context.go(vendorProfile);
-                      },
-                      leading: CircleAvatar(
-                        // Replace with your profile picture logic
-                        child: Text(item[0]),
-                      ),
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(item),
-                          const SizedBox(height: 10,),
-                          const Text('Ratings: 4.5'), // Replace with actual ratings
-                          const SizedBox(height: 10,),
-                          const Text('Ratings: 4.5'),
-                        ],
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.favorite,
-                          color: isFavorite ? Colors.red : Colors.red[100],
+              child: ListView.separated(
+            itemCount: filteredItems.length,
+            separatorBuilder: (context, index) => const Divider(),
+            itemBuilder: (context, index) {
+              final item = filteredItems[index];
+              final isFavorite = favorites[item] ?? false;
+              return Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10),
+                child: Card(
+                  elevation: 5.0,
+                  child: ListTile(
+                    onTap: () {
+                      context.go(vendorProfile);
+                    },
+                    leading: CircleAvatar(
+                      // Replace with your profile picture logic
+                      child: Text(item[0]),
+                    ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item),
+                        const SizedBox(
+                          height: 10,
                         ),
-                        onPressed: () {
-                          setState(() {
-                            favorites[item] = !isFavorite;
-                          });
-                        },
+                        const Text(
+                            'Ratings: 4.5'), // Replace with actual ratings
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text('Ratings: 4.5'),
+                      ],
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(
+                        Icons.favorite,
+                        color: isFavorite ? Colors.red : Colors.red[100],
                       ),
+                      onPressed: () {
+                        setState(() {
+                          favorites[item] = !isFavorite;
+                        });
+                      },
                     ),
                   ),
-                );
-              },
+                ),
+              );
+            },
           )),
         ],
       ),
     );
-
   }
 }

@@ -24,7 +24,20 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile Page'),
+        leading: IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              size: 16,
+              color: Colors.white,
+            )),
+        title: const Text(
+          'Profile',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xffB41854),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -32,47 +45,46 @@ class _ProfilePageState extends State<ProfilePage> {
             // crossAxisAlignment: CrossAxisAlignment.center,
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Card(
-                child: Container(
-                  height: 120,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Profile picture
-                      const CircleAvatar(
-                        // backgroundImage: AssetImage('assets/profile_picture.jpg'),
-                        radius: 40.0,
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Profile picture
+                    const CircleAvatar(
+                      // backgroundImage: AssetImage('assets/profile_picture.jpg'),
+                      radius: 40.0,
+                    ),
+                    const SizedBox(width: 16.0),
+                    // Name
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Your Name',
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                          // Favourites button
+                        ],
                       ),
-                      const SizedBox(width: 16.0),
-                      // Name
-                      const Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Your Name',
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                            // Favourites button
-                          ],
-                        ),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.favorite,
+                        color: isFavorite ? Colors.red : Colors.red[100],
                       ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.favorite,
-                          color: isFavorite ? Colors.red : Colors.red[100],
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isFavorite = !isFavorite;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                      onPressed: () {
+                        setState(() {
+                          isFavorite = !isFavorite;
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -173,7 +185,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       children: [
                                         Text('Item ${itemList.length} added!'),
                                         GestureDetector(
-                                          onTap: (){
+                                          onTap: () {
                                             context.go(orderSummary);
                                           },
                                           child: Container(
@@ -224,7 +236,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                 ),
               ),
-              
             ]),
       ),
     );
