@@ -1,7 +1,8 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:glowme/base/routes/route_url.dart';
 import 'package:glowme/constants/colors.dart';
-import 'package:glowme/constants/image.dart';
 import 'package:glowme/model/service_model.dart';
 import 'package:glowme/provider/landing_screen_provider.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +18,8 @@ class ServicePage extends StatefulWidget {
 class _ServicePageState extends State<ServicePage> {
   @override
   void initState() {
-    //Provider.of<LandingScreenProvider>(context, listen: false).fetchAllService();
+    Provider.of<LandingScreenProvider>(context, listen: false)
+        .fetchAllService();
     super.initState();
   }
 
@@ -25,71 +27,9 @@ class _ServicePageState extends State<ServicePage> {
   Widget build(BuildContext context) {
     return Consumer<LandingScreenProvider>(
         builder: (context, landingScreenProvider, child) {
-      //Service? services = landingScreenProvider.fetchService;
-      Service? services = Service(success: true, data: [
-        ServiceData(
-            id: 'service01',
-            categoryId: 'c01',
-            serviceImage: ImageConstants.icService02,
-            serviceName: "hair",
-            v: 1),
-        ServiceData(
-            id: 'service02',
-            categoryId: 'c02',
-            serviceImage: ImageConstants.icService01,
-            serviceName: "makeup",
-            v: 1),
-        ServiceData(
-            id: 'service01',
-            categoryId: 'c01',
-            serviceImage: ImageConstants.icService02,
-            serviceName: "hair",
-            v: 1),
-        ServiceData(
-            id: 'service02',
-            categoryId: 'c02',
-            serviceImage: ImageConstants.icService01,
-            serviceName: "makeup",
-            v: 1),
-        ServiceData(
-            id: 'service01',
-            categoryId: 'c01',
-            serviceImage: ImageConstants.icService02,
-            serviceName: "hair",
-            v: 1),
-        ServiceData(
-            id: 'service02',
-            categoryId: 'c02',
-            serviceImage: ImageConstants.icService01,
-            serviceName: "makeup",
-            v: 1),
-        ServiceData(
-            id: 'service01',
-            categoryId: 'c01',
-            serviceImage: ImageConstants.icService02,
-            serviceName: "hair",
-            v: 1),
-        ServiceData(
-            id: 'service02',
-            categoryId: 'c02',
-            serviceImage: ImageConstants.icService01,
-            serviceName: "makeup",
-            v: 1),
-        ServiceData(
-            id: 'service01',
-            categoryId: 'c01',
-            serviceImage: ImageConstants.icService02,
-            serviceName: "hair",
-            v: 1),
-        ServiceData(
-            id: 'service02',
-            categoryId: 'c02',
-            serviceImage: ImageConstants.icService01,
-            serviceName: "makeup",
-            v: 1),
-      ]);
+      Service? services = landingScreenProvider.fetchService;
 
-      if (services != null && services.data != null) {
+      if (services != null) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -151,9 +91,12 @@ class _ServicePageState extends State<ServicePage> {
                 itemCount: services.data.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
+                  print(services.data[index].serviceImage);
+                  Uint8List image =
+                      base64Decode(services.data[index].serviceImage!);
                   return Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0), // Add spacing here
+                        horizontal: 16.0), // Add spacing here
                     child: Column(
                       children: [
                         Container(
@@ -166,16 +109,15 @@ class _ServicePageState extends State<ServicePage> {
                               color: index.isEven ? pink01 : pink02
                               // color: service.color,
                               ),
-                          child: Image.asset(
-                            services.data[index].serviceImage!,
+                          child: Image.memory(
+                            image,
                             width: 80,
                             height: 80,
                             fit: BoxFit.cover,
+                            color: Colors.white,
                           ),
                         ),
-                        const SizedBox(
-                            height:
-                                8), // Adjust the spacing between the circle and text
+                        const SizedBox(height: 8), // Adjust the spacing between the circle and text
                         Text(
                           services.data[index].serviceName!,
                           style: const TextStyle(

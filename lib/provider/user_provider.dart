@@ -69,25 +69,19 @@ void setUserSignIn(value){
     String userEnteredOtp = otpController.text;
 
     // Generate a random OTP for comparison
-    
      print('otp generated ::::: $_generatedOtp');
     if (userEnteredOtp == _generatedOtp) {
-      print('matcged');
+      print('matched');
       if (doesUserExist(userPhoneNumber)) {
-        
         setUserExist(true);
         UserApi.signInUser(phoneNumberController.text).then((value){
           setUserSignIn(true);
         });
-        
       } else {
-        
         // User does not exist, perform create logic
         UserApi.createUser(phoneNumberController.text).then((value){
-         
           setUserSignIn(true);
         });
-
       }
     } else {
       // Invalid OTP, handle accordingly (e.g., show an error message)

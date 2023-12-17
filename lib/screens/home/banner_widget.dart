@@ -1,11 +1,8 @@
 import 'dart:convert';
-
 import 'package:carousel_indicator/carousel_indicator.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:glowme/constants/image.dart';
-import 'package:glowme/model/banner_model.dart';
 import 'package:glowme/provider/landing_screen_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +15,6 @@ class BannerWidget extends StatefulWidget {
 
 class _BannerState extends State<BannerWidget> {
   int _currentIndex = 0;
-  BannerModel? bannerModel;
 
   void _updateCurrentIndex(int index, CarouselPageChangedReason reason) {
     setState(() {
@@ -30,25 +26,7 @@ class _BannerState extends State<BannerWidget> {
   void initState() {
     super.initState();
     // Fetch banners when the widget is initialized
-    //Provider.of<LandingScreenProvider>(context, listen: false).fetchAllBanner();
-
-    bannerModel = BannerModel(success: true, data: [
-      BannerData(
-          id: 'b01',
-          title: 'Up to 50% off',
-          description: 'Book your favorite Artists at irresistible Prices',
-          image: ImageConstants.imageCarouselSlider01),
-      BannerData(
-          id: 'b02',
-          title: 'Up to 75% off',
-          description: 'Book your favorite Artists at irresistible Prices',
-          image: ImageConstants.imageCarouselSlider01),
-      BannerData(
-          id: 'b03',
-          title: 'Up to 26% off',
-          description: 'Book your favorite Artists at irresistible Prices',
-          image: ImageConstants.imageCarouselSlider01),
-    ]);
+    Provider.of<LandingScreenProvider>(context, listen: false).fetchAllBanner();
   }
 
   @override

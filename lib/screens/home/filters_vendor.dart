@@ -56,9 +56,9 @@ class _FilteredVendorsState extends State<FilteredVendors> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              context.pop();
+              context.go(home);
             },
-            icon: const Icon(Icons.arrow_back_ios)),
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 18)),
         title: const Text(
           'Makeup Artists',
           style: TextStyle(

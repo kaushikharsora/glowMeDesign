@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glowme/base/routes/route_url.dart';
 import 'package:glowme/constants/font_family_constants.dart';
+import 'package:glowme/constants/image.dart';
 import 'package:glowme/screens/home/services_widget.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +14,6 @@ class OrderSummaryScreen extends StatefulWidget {
 }
 
 class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
-
   final List<ServiceListView> _serviceListView = [
     ServiceListView(
         image: 'assets/images/hair_icon.svg',
@@ -72,7 +72,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                   ),
                 ),
               ),
-              if(!isRemoveCard)
+              if (!isRemoveCard)
                 Card(
                   elevation: 5.0,
                   margin: const EdgeInsets.all(10.0),
@@ -150,10 +150,13 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                             color: Color(0xffB41854),
                           ),
                           onPressed: () {
-                            _showPopup(context, (value) {
-                              isRemoveCard = true;
-                              setState(() {});
-                            },);
+                            _showPopup(
+                              context,
+                              (value) {
+                                isRemoveCard = true;
+                                setState(() {});
+                              },
+                            );
                           },
                         ),
                       ),
@@ -200,7 +203,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                                   ),
                                   const SizedBox(
                                       height:
-                                      8), // Adjust the spacing between the circle and text
+                                          8), // Adjust the spacing between the circle and text
                                   Text(
                                     service.title,
                                     style: const TextStyle(
@@ -232,45 +235,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
               ),
               const SizedBox(height: 10.0),
               // Add more features here
-              SizedBox(
-                height: 60,
-                child: Card(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18.0),
-                        child: Row(
-                          children: [
-                            Image.asset('assets/images/coupon.png'),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              'Apply Coupons',
-                              style: TextStyle(
-                                color: Color(0xFF383838),
-                                fontSize: 13,
-                                fontFamily: 'Lato',
-                                fontWeight: FontWeight.w600,
-                                height: 0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(right: 18.0),
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          size: 18,
-                          color: Color(0xffB41854),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              _buildApplyCouponsView(),
 
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, top: 10),
@@ -295,7 +260,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                     children: [
                       Padding(
                         padding:
-                        EdgeInsets.only(left: 20.0, top: 10, right: 20),
+                            EdgeInsets.only(left: 20.0, top: 10, right: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -324,7 +289,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                       ),
                       Padding(
                         padding:
-                        EdgeInsets.only(left: 20.0, top: 14, right: 20),
+                            EdgeInsets.only(left: 20.0, top: 14, right: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -360,7 +325,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                       ),
                       Padding(
                         padding:
-                        EdgeInsets.only(left: 20.0, top: 14, right: 20),
+                            EdgeInsets.only(left: 20.0, top: 14, right: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -448,39 +413,48 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
   void _showPopup(BuildContext context, Function(bool) isItemRemove) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Remove Item?',
-                style: TextStyle(
-                  color: Color(0xFF383838),
-                  fontSize: 16,
-                  fontFamily: FontFamilyConstants.robotoRegular,
-                  fontWeight: FontWeight.w600,
-                  height: 0,
-                ),
-              ),
-              InkWell(
-                  onTap: () {
-                    context.pop();
-                  },
-                  child: const Icon(
-                    Icons.close,
-                    color: Color(0xffB41854),
-                  ))
-            ],
-          ),
-          content: SizedBox(
-            width: 400.0, // Set your desired width
-            height: 100.0, // Set your desired height
+        return Dialog(
+          backgroundColor: Colors.white,
+          insetPadding: const EdgeInsets.all(24),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: const Color(0xff9D9D9D), width: 1),
+              color: Colors.white,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Remove Item?',
+                      style: TextStyle(
+                        color: Color(0xFF383838),
+                        fontSize: 16,
+                        fontFamily: FontFamilyConstants.robotoRegular,
+                        fontWeight: FontWeight.w600,
+                        height: 0,
+                      ),
+                    ),
+                    InkWell(
+                        onTap: () {
+                          context.pop();
+                        },
+                        child: const Icon(
+                          Icons.close,
+                          color: Color(0xffB41854),
+                        ))
+                  ],
+                ),
+                const SizedBox(height: 16),
                 const Text.rich(
                   TextSpan(
                     children: [
@@ -509,7 +483,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                 ),
                 const SizedBox(height: 20),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
                       onPressed: () {
@@ -517,15 +491,23 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                        const Color(0xFFF9C5C5), // Background color
+                            const Color(0xFFF9C5C5), // Background color
                         shape: RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.circular(20.0), // Rounded corners
+                              BorderRadius.circular(20.0), // Rounded corners
                         ),
                         minimumSize: const Size(130, 40),
                       ),
-                      child: const Text("Cancel"),
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: FontFamilyConstants.latoRegular,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
+                    const SizedBox(width: 9),
                     ElevatedButton(
                       onPressed: () {
                         // Handle the removal action
@@ -534,25 +516,160 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                        const Color(0xFFB41854), // Background color
+                            const Color(0xFFB41854), // Background color
                         shape: RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.circular(20.0), // Rounded corners
+                              BorderRadius.circular(20.0), // Rounded corners
                         ),
                         minimumSize: const Size(130, 40),
                       ),
-                      child: const Text("Confirm"),
+                      child: const Text(
+                        "Confirm",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: FontFamilyConstants.latoRegular,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ],
                 )
               ],
             ),
           ),
-          contentPadding: EdgeInsets.zero,
         );
       },
     );
   }
 
+  Widget _buildApplyCouponsView() {
+    return InkWell(
+      onTap: () {
+        _openApplyCouponsDialog();
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 6,
+                offset: Offset.zero,
+                spreadRadius: 0,
+              )
+            ]),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset('assets/images/coupon.png'),
+            const SizedBox(width: 10),
+            const Expanded(
+              child: Text(
+                'Apply Coupons',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Color(0xFF383838),
+                  fontSize: 13,
+                  fontFamily: 'Lato',
+                  fontWeight: FontWeight.w600,
+                  height: 0,
+                ),
+              ),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios,
+              size: 18,
+              color: Color(0xffB41854),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
+  void _openApplyCouponsDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(24),
+          backgroundColor: Colors.white,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: const Color(0xff9D9D9D), width: 1),
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Remove Item?',
+                      style: TextStyle(
+                        color: Color(0xFF383838),
+                        fontSize: 16,
+                        fontFamily: FontFamilyConstants.robotoRegular,
+                        fontWeight: FontWeight.w600,
+                        height: 0,
+                      ),
+                    ),
+                    InkWell(
+                        onTap: () {
+                          context.pop();
+                        },
+                        child: const Icon(
+                          Icons.close,
+                          color: Color(0xffB41854),
+                        ))
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  height: 1,
+                  width: double.infinity,
+                  color: const Color(0xff9D9D9D).withOpacity(0.5)
+                ),
+                const SizedBox(height: 16,),
+                _buildCouponsItem(1),
+                const SizedBox(height: 16,),
+                _buildCouponsItem(2),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCouponsItem(int args) {
+    return InkWell(
+      onTap: () {},
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            Image.asset(ImageConstants.icCoupon, height: 29, width: 29),
+            const SizedBox(width: 7),
+            const Expanded(
+                child: Text(
+              'FIRSTORDER',
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontFamily: FontFamilyConstants.latoRegular,
+                  fontSize: 13,
+                  color: Color(0xff383838)),
+            )),
+          ],
+        ),
+      ),
+    );
+  }
 }

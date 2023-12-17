@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:glowme/base/routes/route_url.dart';
 import 'package:glowme/constants/constants.dart';
+import 'package:glowme/constants/font_family_constants.dart';
 import 'package:glowme/provider/user_provider.dart';
 import 'package:glowme/service/all%20services/fast_to_sms_service.dart';
 import 'package:glowme/service/preference_service/preferences.dart';
@@ -21,7 +22,20 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreensState extends State<SignInScreen> {
   final TextEditingController _phoneNumberController = TextEditingController();
   String? _phoneNumberErrorText;
+  final focusNode = FocusNode();
+  final formKey = GlobalKey<FormState>();
+  bool sendOTP = false;
+  bool isLoading = false;
+  final focusedBorderColor = const Color(0xffD9D9D9);
+  final fillColor = const Color.fromRGBO(243, 246, 249, 0);
+  final borderColor = const Color(0xffD9D9D9);
+
   void _validatePhoneNumber(String value) {
+
+    if(value.isNotEmpty && value.length == 10){
+      userScreenProvider?.generateRandomOtp();
+    }
+
     if (value.isEmpty || value.length != 10) {
       setState(() {
         _phoneNumberErrorText = "Enter a valid 10-digit phone number";
@@ -33,11 +47,27 @@ class _SignInScreensState extends State<SignInScreen> {
     }
   }
 
+  UserDetailsProvider? userScreenProvider;
+
   @override
   void initState() {
-    // Provider.of<UserDetailsProvider>(context, listen: false).fetchAllUsers();
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      initCall();
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    userScreenProvider?.otpController.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  void initCall() {
+    userScreenProvider =
+        Provider.of<UserDetailsProvider>(context, listen: false);
+    userScreenProvider?.fetchAllUsers();
   }
 
   @override
@@ -144,13 +174,14 @@ class _SignInScreensState extends State<SignInScreen> {
                               ),
                               onChanged: _validatePhoneNumber,
                               onSubmitted: (value) {
-                                userScreenProvider.generateRandomOtp();
+
                               },
                               keyboardType: TextInputType.phone,
                               maxLength: 10,
                             ),
                           ),
-                          PinputExample(userScreenProvider: userScreenProvider)
+                          _buildPinPutExample(
+                              userScreenProvider: userScreenProvider)
                         ],
                       ),
                     ),
@@ -163,36 +194,9 @@ class _SignInScreensState extends State<SignInScreen> {
       );
     });
   }
-}
 
-class PinputExample extends StatefulWidget {
-  final UserDetailsProvider userScreenProvider;
-
-  const PinputExample({super.key, required this.userScreenProvider});
-
-  @override
-  State<PinputExample> createState() => _PinputExampleState();
-}
-
-class _PinputExampleState extends State<PinputExample> {
-  final focusNode = FocusNode();
-  final formKey = GlobalKey<FormState>();
-  bool sendOTP = false;
-  bool isLoading = false;
-
-  @override
-  void dispose() {
-    widget.userScreenProvider.otpController.dispose();
-    focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    const focusedBorderColor = Color(0xffD9D9D9);
-    const fillColor = Color.fromRGBO(243, 246, 249, 0);
-    const borderColor = Color(0xffD9D9D9);
-
+  Widget _buildPinPutExample(
+      {required UserDetailsProvider userScreenProvider}) {
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
@@ -205,10 +209,6 @@ class _PinputExampleState extends State<PinputExample> {
         border: Border.all(color: borderColor),
       ),
     );
-    final userScreenProvifder =
-        Provider.of<UserDetailsProvider>(context, listen: false);
-
-    /// Optionally you can use form to validate the Pinput
     return Stack(
       children: [
         Form(
@@ -221,7 +221,7 @@ class _PinputExampleState extends State<PinputExample> {
                 textDirection: TextDirection.ltr,
                 child: Pinput(
                   length: 6,
-                  controller: widget.userScreenProvider.otpController,
+                  controller: userScreenProvider.otpController,
                   focusNode: focusNode,
                   androidSmsAutofillMethod:
                       AndroidSmsAutofillMethod.smsUserConsentApi,
@@ -230,7 +230,8 @@ class _PinputExampleState extends State<PinputExample> {
                   separatorBuilder: (index) => const SizedBox(width: 8),
                   validator: (value) {
                     return value ==
-                            Provider.of<UserDetailsProvider>(context, listen: false)
+                            Provider.of<UserDetailsProvider>(context,
+                                    listen: false)
                                 .generatedOtp
                         ? null
                         : 'Pin is incorrect';
@@ -271,9 +272,7 @@ class _PinputExampleState extends State<PinputExample> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               Text(
                 'Resend OTP in 30 seconds',
                 style: GoogleFonts.lato(
@@ -285,149 +284,53 @@ class _PinputExampleState extends State<PinputExample> {
                 height: 20,
               ),
               Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 40,
+                  width: double.infinity,
                   margin: const EdgeInsets.all(20),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                            0xffB41854), // Set the background color here
-                      ),
+                          backgroundColor: const Color(0xffB41854)),
                       onPressed: _onPressedButton,
                       child: Text(
-                          userScreenProvifder.userExist ? 'Sign In' : 'Login')))
+                        userScreenProvider.userExist ? 'Login' : 'Sign In',
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: FontFamilyConstants.latoRegular,
+                            fontSize: 16),
+                      )))
             ],
           ),
         ),
-        if(isLoading) const CircularProgressIndicator()
+        if (isLoading) const Center(child: CircularProgressIndicator())
       ],
     );
   }
 
-  void _onPressedButton () async {
+  void _onPressedButton() async {
     isLoading = true;
-    String phoneNumber = widget.userScreenProvider.phoneNumberController.text.trim();
-    String otp = widget.userScreenProvider.generatedOtp;
-    if (phoneNumber.isNotEmpty && phoneNumber.length == 10) {
-      if (phoneNumber.isNotEmpty &&
-          phoneNumber.length == 10 && sendOTP == false) {
+    String phoneNumber = userScreenProvider!.phoneNumberController.text.trim();
+    String otp = userScreenProvider!.generatedOtp;
+    if (phoneNumber.isNotEmpty && phoneNumber.length == 10 && otp.isNotEmpty) {
+      if (sendOTP == false) {
         await Fast2SMSService.sendSMS(
             'Your OTP for GlowME login is $otp. This OTP will expire in 10 minutes.',
             phoneNumber);
         sendOTP = true;
-      }else if (sendOTP == true &&
-          otp == widget.userScreenProvider.otpController.text) {
+      } else if (sendOTP == true &&
+          otp == userScreenProvider!.otpController.text) {
         await SharedPreference.setData(IS_AUTH, true);
+        userScreenProvider?.signInUser();
         context.go(home);
+        sendOTP = false;
       } else {
-        //context.go(home);
         Fluttertoast.showToast(msg: 'Invalid OTP request');
+        sendOTP = false;
       }
     } else {
       Fluttertoast.showToast(msg: 'Please enter valid number');
+      sendOTP = false;
     }
     isLoading = false;
     setState(() {});
-  }
-
-}
-
-class LineWithCircleAndOr extends StatelessWidget {
-  const LineWithCircleAndOr({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 150.0, // Line width
-          height: 1.0, // Line height
-          color: Colors.black,
-        ),
-        const SizedBox(width: 10.0), // Spacer
-        Container(
-          width: 60.0, // Circle diameter
-          height: 60.0,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: const Color(0xffD9D9D9), // Set the border color here
-              width: 1.0, // Set the border width
-            ),
-          ),
-          child: const Center(
-            child: Text(
-              "OR",
-              style: TextStyle(
-                color: Color(0xff383838),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 10.0), // Spacer
-        Container(
-          width: 150.0, // Line width
-          height: 1.0, // Line height
-          color: Colors.black,
-        ),
-      ],
-    );
-  }
-}
-
-class SocialIcon extends StatelessWidget {
-  const SocialIcon({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      width: MediaQuery.of(context).size.width,
-      height: 70,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-            width: 100.0, // Circle diameter
-            height: 80.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: const Color(0xffD9D9D9), // Set the border color here
-                width: 1.0, // Set the border width
-              ),
-            ),
-            child: Center(child: Image.asset('assets/images/google_icon.png')),
-          ),
-          Container(
-            width: 100.0, // Circle diameter
-            height: 80.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: const Color(0xffD9D9D9), // Set the border color here
-                width: 1.0, // Set the border width
-              ),
-            ),
-            child:
-                Center(child: Image.asset('assets/images/facebook_icon.png')),
-          ),
-          Container(
-            width: 100.0, // Circle diameter
-            height: 80.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: const Color(0xffD9D9D9), // Set the border color here
-                width: 1.0, // Set the border width
-              ),
-            ),
-            child: Center(child: Image.asset('assets/images/apple_icon.png')),
-          ),
-        ],
-      ),
-    );
   }
 }

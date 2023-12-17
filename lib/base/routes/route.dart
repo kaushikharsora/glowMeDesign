@@ -4,6 +4,7 @@ import 'package:glowme/screens/appointment_calender.dart';
 import 'package:glowme/screens/home/filters_vendor.dart';
 import 'package:glowme/screens/home/home_page.dart';
 import 'package:glowme/screens/home/home_page_layout.dart';
+import 'package:glowme/screens/home/order_confirmation_page.dart';
 import 'package:glowme/screens/home/order_summary_page.dart';
 import 'package:glowme/screens/home/user_address_page.dart';
 import 'package:glowme/screens/home/vendor_profile.dart';
@@ -72,6 +73,9 @@ final router = GoRouter(navigatorKey: _parentKey, routes: [
         GoRoute(
           path: walletPage,
           builder: (context, state) => const WalletPage(),
+        ),GoRoute(
+          path: orderConfirmationPage,
+          builder: (context, state) => const OrderConfirmationPage(),
         ),
       ])
 ]);

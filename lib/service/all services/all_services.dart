@@ -8,12 +8,8 @@ class ServiceApi{
   static Future<Service> fetchAllService() async {
     Service? service; // Declare the variable outside the try block
     try {
-      var url = Uri.parse('${ApiContants.base_url}service/fetchAllServices');
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      var url = Uri.parse("${ConfigClass.baseUrl}${routes['fetchAllServices']}");
+      final response = await http.get(url, headers: {'Content-Type': 'application/json',},
        
       );
        if (kDebugMode) {

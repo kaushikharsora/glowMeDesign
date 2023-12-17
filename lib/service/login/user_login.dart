@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:glowme/model/user_model.dart';
 import 'package:glowme/service/base_url.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +6,9 @@ class UserApi {
  static Future<UserDetails> createUser(String phoneNumber) async {
     UserDetails? userDetails; // Declare the variable outside the try block
     try {
-      var url = Uri.parse('${ApiContants.base_url}user/createusers');
+      //var url = Uri.parse('${ConfigClass.baseUrl}user/createusers');
+      var url = Uri.parse('${ConfigClass.baseUrl}${routes['createUser']}');
+      print(url);
       final response = await http.post(
         url,
         headers: {
@@ -30,10 +31,12 @@ class UserApi {
 
     return userDetails!;
   }
+
   static  Future<UserDetails> signInUser(String phoneNumber) async {
     UserDetails? userDetails; // Declare the variable outside the try block
     try {
-      var url = Uri.parse('${ApiContants.base_url}user/signin');
+      var url = Uri.parse('${ConfigClass.baseUrl}${routes['signin']}');
+      print(url);
       final response = await http.post(
         url,
         headers: {
@@ -60,14 +63,9 @@ class UserApi {
    static Future<UserDetails> fetchAllUsers() async {
     UserDetails? userDetails; // Declare the variable outside the try block
     try {
-      var url = Uri.parse('${ApiContants.base_url}user/fetchAllUsers');
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-       
-      );
+      Uri url = Uri.parse('${ConfigClass.baseUrl}${routes['fetchAllUsers']}');
+      print(url);
+      final response = await http.get(url, headers: {'Content-Type': 'application/json',},);
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);

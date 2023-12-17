@@ -8,7 +8,8 @@ class BannerApi{
   static Future<BannerModel> fetchAllBanners() async {
     BannerModel? banner; // Declare the variable outside the try block
     try {
-      var url = Uri.parse('${ApiContants.base_url}banner/fetchAllBanners');
+      var url = Uri.parse('${ConfigClass.baseUrl}${routes['fetchAllBanners']}');
+      print(url);
       final response = await http.get(
         url,
         headers: {

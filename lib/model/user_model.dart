@@ -43,29 +43,36 @@ class User {
 
 @JsonSerializable()
 class Addresses {
-  final String type;
-  final String? homeNo;
-  final String? landMark;
-  final String? village;
-  final String? district;
-  final String? state;
-  final String? street;
-  final String? city;
-  final String? pincode;
+  final Home? home;
+  final Home? office;
+  final Home? others;
 
   Addresses({
-    required this.type,
-    this.street,
-    this.city,
-    this.pincode,
-    this.district,
-    this.homeNo,
-    this.landMark,
-    this.state,
-    this.village,
+    this.home,
+    this.office,
+    this.others,
   });
   factory Addresses.fromJson(Map<String, dynamic> json) =>
       _$AddressesFromJson(json);
 
   Map<String, dynamic> toJson() => _$AddressesToJson(this);
+}
+
+@JsonSerializable()
+class Home {
+  final String? type;
+  final String? street;
+  final String? city;
+  final String? pincode;
+
+  Home({
+    this.type,
+    this.street,
+    this.city,
+    this.pincode,
+  });
+
+  factory Home.fromJson(Map<String, dynamic> json) => _$HomeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$HomeToJson(this);
 }

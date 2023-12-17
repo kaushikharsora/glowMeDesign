@@ -7,7 +7,7 @@ class VendorApi{
   static Future<Vendor> fetchAllVendor() async {
     Vendor? vendor; // Declare the variable outside the try block
     try {
-      var url = Uri.parse('${ApiContants.base_url}vendor/fetchAllvendors');
+      var url = Uri.parse('${ConfigClass.baseUrl}vendor/fetchAllvendors');
       final response = await http.get(
         url,
         headers: {

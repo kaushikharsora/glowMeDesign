@@ -10,6 +10,8 @@ class ImageConstants{
   static String imageVendor01 = "assets/images/image_vendor01.png";
   static String imageCarouselSlider01 = "assets/images/image_carouselSlider_image.png";
   static String imageUser01 = "assets/images/user01.png";
+  static String icCoupon = "assets/images/ic_coupon.png";
+  static String imageConfirmOrder = "assets/images/image_confirm_order.png";
 
   //icons
   static String icDelete = "assets/icons/ic_delete.svg";

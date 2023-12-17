@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:glowme/base/routes/route_url.dart';
+import 'package:glowme/constants/constants.dart';
 import 'package:glowme/constants/font_family_constants.dart';
 import 'package:glowme/model/user_model.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +24,7 @@ class _UserAddressPageState extends State<UserAddressPage> {
   double latitude = 0.0;
   double longitude = 0.0;
   bool _isCheckDefault = false;
-  bool isAddAddress = true;
+  bool isAddAddress = false;
   int selectedOption = 1;
   UserDetails? userDetails;
 
@@ -36,20 +37,18 @@ class _UserAddressPageState extends State<UserAddressPage> {
   void _getUserAddresses() {
     userDetails = UserDetails(users: [
       User(
-          id: 'u01',
-          phoneNumber: '7383636550',
-          fullName: 'Kaushik Harsora',
-          email: 'kbharsora1999@gmail.com',
-          addresses: Addresses(
-              type: 'Home',
-              homeNo: 'Panchavati',
-              street: 'Rajput Street',
-              landMark: 'Vaghani Chowk',
-              village: 'Vallabhipur',
-              city: 'Vallabhipur',
-              district: 'Bhavnagar',
-              state: 'Gujarat',
-              pincode: '364310')),
+        id: 'u01',
+        phoneNumber: '7383636550',
+        fullName: 'Kaushik Harsora',
+        email: 'kbharsora1999@gmail.com',
+        addresses: Addresses(
+          home: Home(
+              type: HOME_ADDRESS,
+              street: 'Panchavati, Rajput Street, Vaghani Chowk',
+              city: 'Vallabhipur, Bhavnagar, Gujarat',
+              pincode: '364310'),
+        ),
+      ),
     ]);
   }
 
@@ -336,7 +335,11 @@ class _UserAddressPageState extends State<UserAddressPage> {
           const SizedBox(height: 15),
           _buildAddressList(),
           const SizedBox(height: 24),
-          _buildBottomButton(onTap: () {}, btnText: 'Book Service'),
+          _buildBottomButton(
+              onTap: () {
+                context.go(orderConfirmationPage);
+              },
+              btnText: 'Book Service'),
         ],
       ),
     );
@@ -362,9 +365,9 @@ class _UserAddressPageState extends State<UserAddressPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Text(
+                    Text(
                       args == 1 ? 'Confirm Details?' : 'Remove Address?',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontFamily: FontFamilyConstants.robotoRegular,
                           fontSize: 16,
@@ -379,10 +382,12 @@ class _UserAddressPageState extends State<UserAddressPage> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                 Text(
-                  args == 1 ? 'Are the address details correct?' : 'Are you sure you want to remove the address?',
+                Text(
+                  args == 1
+                      ? 'Are the address details correct?'
+                      : 'Are you sure you want to remove the address?',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.w500,
                       fontFamily: FontFamilyConstants.latoRegular,
                       fontSize: 13,
@@ -402,15 +407,11 @@ class _UserAddressPageState extends State<UserAddressPage> {
                     Expanded(
                         child: _buildBottomButton(
                             onTap: () {
-                              if(args == 1){
-                                userDetails!.users!.add(User(
-                                    id: 'u${userDetails?.users!.length ?? 0 + 1}',
-                                    addresses: Addresses(
-                                        type: 'Home',
-                                        street: addressController.text,
-                                        city: cityController.text.trim(),
-                                        pincode: pinController.text),
-                                    phoneNumber: mobileController.text));
+                              if (args == 1) {
+                                // userDetails!.users!.add(User(
+                                //     id: 'u${userDetails?.users!.length ?? 0 + 1}',
+                                //   addresses:
+                                // );
                                 changeView!(false);
                               }
                               context.pop();
@@ -578,10 +579,3 @@ class _UserAddressPageState extends State<UserAddressPage> {
     );
   }
 }
-
-/*Container(
-width: 300, // Adjust the width as needed
-height: 300, // Adjust the height as needed
-child:
-),
-)*/

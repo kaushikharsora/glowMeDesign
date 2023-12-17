@@ -54,9 +54,7 @@ class LandingScreenProvider extends ChangeNotifier {
   }
 
   void fetchAllService() {
-  
     ServiceApi.fetchAllService().then((value) {
-      
       setService(value);
     });
   }

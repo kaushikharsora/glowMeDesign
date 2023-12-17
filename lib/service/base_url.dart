@@ -1,3 +1,19 @@
-class ApiContants{
- static String base_url = 'http://192.168.1.3:5001/api/';
+class ConfigClass {
+ static String get baseUrl => "http://ec2-3-110-41-118.ap-south-1.compute.amazonaws.com:5001/api/";
 }
+
+
+Map<String, String> routes = {
+
+ //USER APIS
+ "fetchAllUsers": "user/fetchAllUsers",
+ "createUser": "user/createusers",
+ "signin": "user/signin",
+
+
+ //SERVICES APIS
+ "fetchAllServices": "service/fetchAllServices",
+
+ //Banners APIS
+ "fetchAllBanners": "banner/fetchAllBanners",
+};
