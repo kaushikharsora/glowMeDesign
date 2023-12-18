@@ -28,7 +28,6 @@ class _ServicePageState extends State<ServicePage> {
     return Consumer<LandingScreenProvider>(
         builder: (context, landingScreenProvider, child) {
       Service? services = landingScreenProvider.fetchService;
-
       if (services != null) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
